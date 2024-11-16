@@ -1,8 +1,10 @@
 import mongoose, { Model, Schema, Document } from "mongoose";
 
 interface IUser extends Document {
-  username: string;
   email: string;
+  username: string;
+  firstName: string;
+  lastName?: string;
   password: string;
   role: "user" | "admin";
   isVerified: boolean;
@@ -13,6 +15,14 @@ interface IUser extends Document {
 }
 
 const userSchema: Schema<IUser> = new Schema({
+  email: {
+    type: String,
+    required: [true, "Email is required"],
+    unique: true,
+    trim: true,
+    lowercase: true,
+    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format."],
+  },
   username: {
     type: String,
     required: [true, "Username is required"],
@@ -25,13 +35,18 @@ const userSchema: Schema<IUser> = new Schema({
       "Username can only contain letters, numbers, @, -, _, and .",
     ],
   },
-  email: {
+  firstName: {
     type: String,
-    required: [true, "Email is required"],
-    unique: true,
+    required: [true, "First name is required"],
     trim: true,
-    lowercase: true,
-    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format."],
+    minlength: [2, "First name must be at least 2 characters long."],
+    maxlength: [30, "First name must not exceed 30 characters."],
+  },
+  lastName: {
+    type: String,
+    trim: true,
+    minlength: [2, "Last name must be at least 2 characters long."],
+    maxlength: [30, "Last name must not exceed 30 characters."],
   },
   password: {
     type: String,
