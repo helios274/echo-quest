@@ -5,16 +5,16 @@ import { APIResponse } from "@/lib/helpers/responses";
 export async function sendVerificationEmail(
   email: string,
   username: string,
-  verificationCode: number
+  verificationCode: string
 ): Promise<APIResponse> {
   try {
     await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
-      to: [email],
+      to: "adithyasridharprasad@gmail.com",
       subject: "Verification Code",
       react: VerificationEmail({
         username,
-        verificationCode: verificationCode.toString(),
+        verificationCode: verificationCode,
       }),
     });
 

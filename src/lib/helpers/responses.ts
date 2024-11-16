@@ -1,4 +1,6 @@
 export interface APIResponse {
   success: boolean;
-  message: string;
+  data?: any;
+  errors?: string[] | string;
+  message?: string;
 }
